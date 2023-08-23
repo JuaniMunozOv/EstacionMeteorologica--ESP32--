@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Configuración de Red WiFi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+
+  <div id="svg-container">
+    <svg id="visual" viewBox="0 0 260 620"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+      <rect x="0" y="0" width="260" height="620" fill="#001220">
+      </rect>
+      <path d="M0 471L19.2 458.7C38.3 446.3 76.7 421.7 114.8 424C153 426.3 191 455.7 229.2 459.7C267.3 463.7 305.7 442.3 343.8 443C382 443.7 420 466.3 458.2 476.2C496.3 486 534.7 483 553.8 481.5L573 480L573 620L553.8 620C534.7 620 496.3 620 458.2 620C420 620 382 620 343.8 620C305.7 620 267.3 620 229.2 620C191 620 153 620 114.8 620C76.7 620 38.3 620 19.2 620L0 620Z" fill="#fa7268"></path>
+      <path d="M0 511L19.2 516C38.3 521 76.7 531 114.8 524.7C153 518.3 191 495.7 229.2 477.2C267.3 458.7 305.7 444.3 343.8 442C382 439.7 420 449.3 458.2 459.2C496.3 469 534.7 479 553.8 484L573 489L573 620L553.8 620C534.7 620 496.3 620 458.2 620C420 620 382 620 343.8 620C305.7 620 267.3 620 229.2 620C191 620 153 620 114.8 620C76.7 620 38.3 620 19.2 620L0 620Z" fill="#eb5967"></path>
+      <path d="M0 505L19.2 512.7C38.3 520.3 76.7 535.7 114.8 538.7C153 541.7 191 532.3 229.2 522C267.3 511.7 305.7 500.3 343.8 502.2C382 504 420 519 458.2 528.8C496.3 538.7 534.7 543.3 553.8 545.7L573 548L573 620L553.8 620C534.7 620 496.3 620 458.2 620C420 620 382 620 343.8 620C305.7 620 267.3 620 229.2 620C191 620 153 620 114.8 620C76.7 620 38.3 620 19.2 620L0 620Z" fill="#da3f67"></path>
+      <path d="M0 522L19.2 527.8C38.3 533.7 76.7 545.3 114.8 546.2C153 547 191 537 229.2 530.8C267.3 524.7 305.7 522.3 343.8 531C382 539.7 420 559.3 458.2 558.2C496.3 557 534.7 535 553.8 524L573 513L573 620L553.8 620C534.7 620 496.3 620 458.2 620C420 620 382 620 343.8 620C305.7 620 267.3 620 229.2 620C191 620 153 620 114.8 620C76.7 620 38.3 620 19.2 620L0 620Z" fill="#c62368"></path>
+    </svg>
+  </div>
+
+  <div id="form-container">
+    <h2>Configuración de <br>
+      Estación Meteorológica</h2>
+    <form id="wifi-form">
+      <label for="ssid">Ingrese red WiFi:</label><br>
+      <input type="text" id="ssid-input" name="ssid" required><br>
+      <label for="password">Contraseña:</label><br>
+      <input type="password" id="password-input" name="password" required><br><br>
+      <button id="save-button" type="submit">Guardar</button>
+    </form>
+    <p id="error-message" style="color: red; display: none;">Hubo un error al enviar los datos</p>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('wifi-form');
+      const errorMessage = document.getElementById('error-message');
+  
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+  
+        const ssid = document.getElementById('ssid-input').value;
+        const password = document.getElementById('password-input').value;
+  
+        // Enviar los datos al ESP32
+        fetch('/configure', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `ssid=${ssid}&password=${password}`
+        })
+        .then(response => {
+          if (response.ok) {
+            // Mostrar mensaje de éxito
+            errorMessage.style.display = 'none';
+            alert('Datos guardados con éxito');
+          } else {
+            // Mostrar mensaje de error
+            errorMessage.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          // Mostrar mensaje de error
+          errorMessage.style.display = 'block';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
