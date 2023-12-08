@@ -6,10 +6,10 @@
 #include <HTTPClient.h>
 
 // Configuración de WiFi y ThingSpeak
-const char* ssid = "CASA MNZ";
-const char* password = "munos0610";
-const char* server = "https://api.thingspeak.com/update?api_key=74OG7DSH9WLJSAJV&field1=0";
-const char* apiKey = "74OG7DSH9WLJSAJV";
+const char* ssid = "";
+const char* password = "";
+const char* server = "https://api.thingspeak.com";
+const char* apiKey = "";
 
 // Configuración de los sensores DS18B20
 #define ONE_WIRE_BUS 14
